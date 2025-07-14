@@ -52,3 +52,18 @@ compile_commands.json
 *creator.user*
 
 *_qmlcache.qrc
+
+# macOS system files
+.DS_Store
+
+# JetBrains IDEs
+.idea/
+
+# CMake build directory
+build/
+build-*/
+
+# Backup / swap files
+*~
+*.swp
+
