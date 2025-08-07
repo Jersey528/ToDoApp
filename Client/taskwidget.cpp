@@ -6,7 +6,7 @@
 #include <QDebug>
 
 TaskWidget::TaskWidget(const Task &task, const QString &counterpartyName,TaskViewType type, QWidget *parent)
-    : QWidget(parent)
+    : QWidget(parent), task(task), viewType(type)
 {
     // Зовнішній лейаут TaskWidget
     QVBoxLayout *outerLayout = new QVBoxLayout(this);
@@ -18,7 +18,7 @@ TaskWidget::TaskWidget(const Task &task, const QString &counterpartyName,TaskVie
     frameContainer->setObjectName("frameContainer");
     frameContainer->setStyleSheet(R"(
         #frameContainer {
-            background-color: white;
+            background-color: #f4f4f4;
             border: 1px solid #654b25;
             border-radius: 5px;
             padding: 4px;
@@ -46,6 +46,7 @@ TaskWidget::TaskWidget(const Task &task, const QString &counterpartyName,TaskVie
     });
 
     // Назва задачі
+
     QLabel *titleLabel = new QLabel(task.title, frameContainer);
     titleLabel->setStyleSheet("font-weight: bold; font-size: 16px;");
 
@@ -92,15 +93,17 @@ TaskWidget::TaskWidget(const Task &task, const QString &counterpartyName,TaskVie
     //QLabel *deadlineLabel = new QLabel(task.deadline.toString("dd.MM.yyyy HH:mm"), frameContainer);
     //deadlineLabel->setStyleSheet("color: #888; font-size: 12px;");
 
-    QDateTime now = QDateTime::currentDateTime();
-    QString deadlineText;
-    QString deadlineColor = "#888";  // стандартний сірий колір
+    QDateTime now = QDateTime::currentDateTime().toLocalTime();
+    QDateTime deadline = task.deadline.toLocalTime();
 
-    if (task.deadline < now && task.status != "done") {
-        deadlineText = "Протерміновано: " + task.deadline.toString("dd.MM.yyyy HH:mm");
-        deadlineColor = "#cc0000";  // червоний
+    QString deadlineText;
+    QString deadlineColor = "#888";
+
+    if (deadline < now && task.status != "done") {
+        deadlineText = "Протерміновано: " + deadline.toString("dd.MM.yyyy HH:mm");
+        deadlineColor = "#cc0000";
     } else {
-        deadlineText = "Термін виконання: " + task.deadline.toString("dd.MM.yyyy HH:mm");
+        deadlineText = "Термін виконання: " + deadline.toString("dd.MM.yyyy HH:mm");
     }
 
     QLabel *deadlineLabel = new QLabel(deadlineText, frameContainer);
@@ -108,6 +111,7 @@ TaskWidget::TaskWidget(const Task &task, const QString &counterpartyName,TaskVie
                                      "color: %1;"
                                      "font-size: 12px;"
                                      ).arg(deadlineColor));
+
 
 
     bottomRow->addWidget(counterpartyLabel);
@@ -164,6 +168,7 @@ void TaskWidget::showContextMenuAt(const QPoint &globalPos)
         menu.addAction("Змінити задачу", [this]() {
             emit requestEdit(task);
         });
+
         menu.addAction("Видалити задачу", [this]() {
             emit requestDelete(task.id);
         });
@@ -185,5 +190,7 @@ void TaskWidget::showContextMenuAt(const QPoint &globalPos)
         emit requestDetails(task);
     });
 
+    emit requestPauseRefresh();
     menu.exec(globalPos);
+    emit requestResumeRefresh();
 }

@@ -28,6 +28,7 @@ public:
     MainWindow(int userId, QWidget *parent = nullptr);
     ~MainWindow();
     QFrame *createStylizedFrame(QWidget *parent);
+    QPushButton* createStyledButton(const QString &text);
 
 private:
     int currentUserId;
@@ -42,9 +43,21 @@ private:
 
     void toggleSideMenu();
     void loadTasks(TaskViewType type);
+    void openCreateTaskDialog();
+
+    QWidget *clickCatcher = nullptr;
+
+    QTimer *refreshTimer;
+
+    void pauseAutoRefresh();
+    void resumeAutoRefresh();
+
+    QLabel *viewTypeLabel;
+    QLabel *placeholderLabel;
 
 protected:
     void resizeEvent(QResizeEvent *event) override;
+    bool eventFilter(QObject *watched, QEvent *event) override;
 
 private slots:
     void editTask(const Task &task);

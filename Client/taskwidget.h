@@ -38,6 +38,9 @@ signals:
     void requestEdit(const Task &task);
     void requestStatusChange(int taskId, QString newStatus);
     void requestDetails(const Task &task);
+
+    void requestPauseRefresh();
+    void requestResumeRefresh();
 };
 
 #endif // TASKWIDGET_H

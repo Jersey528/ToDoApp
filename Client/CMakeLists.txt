@@ -27,6 +27,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         task.h task.cpp
         taskwidget.h taskwidget.cpp
         taskviewtype.h
+        createtaskdialog.h createtaskdialog.cpp
+        user.h
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET Client APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

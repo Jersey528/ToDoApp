@@ -8,6 +8,7 @@
 
 #include "task.h"
 #include "taskviewtype.h"
+#include "user.h"
 
 class DatabaseManager : public QObject
 {
@@ -24,6 +25,12 @@ public:
     QString getUserRole(const QString &login);
     QString getUserName(int userId);
     QList<Task> getTasksByUser(int userId, TaskViewType type);
+    QList<User> getAssignableUsers(int supervisorId);
+
+    bool createTask(const Task &task);
+    bool deleteTask(int taskId);
+    bool updateTaskStatus(int taskId, const QString &newStatus);
+    bool updateTask(const Task &task);
 
 private:
     DatabaseManager();
