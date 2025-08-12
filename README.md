@@ -16,3 +16,24 @@
 ## Скріншоти
 ![Скріншот 1](Docs/Screenshots/screenshot1.png)  
 ![Скріншот 2](Docs/Screenshots/screenshot2.png)
+
+
+## Встановлення
+### 1. Клонування репозиторію
+```bash
+git clone https://github.com/Jersey528/ToDoApp.git
+cd ToDoApp
+```
+### 2. Налаштування середовища
+Переконайтесь, що у вас встановлені:
+- Qt 6.x
+- CMake 3.16+
+- MySQL Connector/C++
+
+### 3. Збірка
+```bash
+mkdir build
+cd build
+cmake ..
+cmake --build .
+```
