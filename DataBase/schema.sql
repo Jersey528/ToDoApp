@@ -22,15 +22,3 @@ CREATE TABLE tasks (
     FOREIGN KEY (creator_id) REFERENCES users(id),
     FOREIGN KEY (assignee_id) REFERENCES users(id)
 );
-
--- Подання з автоматичним статусом overdue
-CREATE VIEW tasks_view AS
-SELECT
-    id, title, description, creator_id, assignee_id,
-    deadline, created_at,
-    CASE
-        WHEN status = 'done' THEN 'done'
-        WHEN deadline < NOW() THEN 'overdue'
-        ELSE status
-    END AS dynamic_status
-FROM tasks;
